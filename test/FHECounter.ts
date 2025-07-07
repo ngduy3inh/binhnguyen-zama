@@ -35,6 +35,29 @@ describe("FHECounter", function () {
     }
     ({ fheCounterContract, fheCounterContractAddress } = await deployFixture());
   });
+  
+    it("should be deployed", async function () {
+    console.log(`FHECounter has been deployed at address ${fheCounterContractAddress}`);
+    // Test the deployed address is valid
+    expect(ethers.isAddress(fheCounterContractAddress)).to.eq(true);
+  });
+  
+  it("encrypted count should be uninitialized after deployment", async function () {
+  const encryptedCount = await fheCounterContract.getCount();
+  // Expect initial count to be bytes32(0) after deployment,
+  // (meaning the encrypted count value is uninitialized)
+  expect(encryptedCount).to.eq(ethers.ZeroHash);
+});
+it("increment the counter by 1", async function () {
+  const encryptedCountBeforeInc = await fheCounterContract.getCount();
+  expect(encryptedCountBeforeInc).to.eq(ethers.ZeroHash);
+  const clearCountBeforeInc = 0;
+
+  // const tx = await counterContract.connect(signers.alice).increment(1);
+  // await tx.wait();
+  // const countAfterInc = await counterContract.getCount();
+  // expect(countAfterInc).to.eq(countBeforeInc + 1n);
+});
 
   it("encrypted count should be uninitialized after deployment", async function () {
     const encryptedCount = await fheCounterContract.getCount();
